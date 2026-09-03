@@ -36,7 +36,10 @@ function Shell() {
           <Home onOpenAuth={(role) => setAuthRole(role)} />
         )}
       </main>
-
+[build]
+  base = "app"
+  publish = "app/dist"
+  command = "npm run build"
       <Footer onOpenAuth={(role) => setAuthRole(role)} />
 
       {authRole && (

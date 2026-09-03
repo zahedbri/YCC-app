@@ -1,0 +1,22 @@
+# Repository-root config.
+#
+# The site's "Base directory" build setting points at a stale path that does
+# not exist in this repo ("YCC-your certified Consultant/ycc-app"). That made
+# config resolution fail with "Base directory does not exist", which the CLI
+# then retried without API access, ultimately surfacing the misleading
+# 'Project not found. Please rerun "netlify link"'.
+#
+# `base` here overrides that UI setting, so the app is located at ycc-app/.
+[build]
+  base = "ycc-app"
+  publish = "dist"
+  # `vite` is a devDependency, so install dev deps explicitly: a
+  # production-mode install omits it (exit 127: "vite: not found").
+  command = "npm ci --include=dev && npm run build"
+
+[build.environment]
+  NPM_FLAGS = "--include=dev"
+  # This is a Vite + React SPA, not a Next.js app. The Next.js Runtime is
+  # enabled at the site level and would fail in onBuild because `dist/`
+  # holds no Next.js output.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"

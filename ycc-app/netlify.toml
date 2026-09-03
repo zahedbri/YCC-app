@@ -1,0 +1,13 @@
+[build]
+  publish = "dist"
+  # Install with devDependencies explicitly: `vite` is a devDependency, and a
+  # production-mode install would omit it (exit 127: "vite: not found").
+  command = "npm ci --include=dev && npm run build"
+
+[build.environment]
+  # Belt-and-braces for the platform's own install step.
+  NPM_FLAGS = "--include=dev"
+  # This is a Vite + React SPA, not a Next.js app. The Next.js Runtime is
+  # enabled at the site level and would fail the build in onBuild because
+  # `dist/` holds no Next.js output.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"

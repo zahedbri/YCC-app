@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../AuthContext";
 
-export default function Footer({ onOpenAuth }) {
+export default function Footer({ onOpenAuth, onGoCourses }) {
   const { user } = useAuth();
   return (
     <footer className="site-footer pt-5 pb-4">
@@ -19,6 +19,7 @@ export default function Footer({ onOpenAuth }) {
             <h6 className="mb-3">Explore</h6>
             <ul className="list-unstyled small">
               <li className="mb-2"><a href="#destinations">Destinations</a></li>
+              <li className="mb-2"><button className="btn btn-link p-0 text-decoration-none footer-link-btn" onClick={onGoCourses}>IELTS Prep Course</button></li>
               <li className="mb-2"><a href="#how-we-work">How We Work</a></li>
               <li className="mb-2"><a href="#about">About Us</a></li>
               <li className="mb-2"><a href="#contact">Contact</a></li>

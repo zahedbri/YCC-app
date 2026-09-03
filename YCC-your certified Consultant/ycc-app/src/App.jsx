@@ -5,10 +5,11 @@ import Footer from "./components/Footer";
 import AuthModal from "./components/AuthModal";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+import Courses from "./pages/Courses";
 
 function Shell() {
   const { user } = useAuth();
-  const [view, setView] = useState("home"); // "home" | "dashboard"
+  const [view, setView] = useState("home"); // "home" | "dashboard" | "courses"
   const [authRole, setAuthRole] = useState(null); // null when modal closed
 
   return (
@@ -27,20 +28,20 @@ function Shell() {
         onOpenAuth={(role) => setAuthRole(role)}
         onGoDashboard={() => setView("dashboard")}
         onGoHome={() => setView("home")}
+        onGoCourses={() => setView("courses")}
       />
 
       <main>
         {view === "dashboard" && user ? (
-          <Dashboard onOpenAuth={(role) => setAuthRole(role)} />
+          <Dashboard onOpenAuth={(role) => setAuthRole(role)} onGoCourses={() => setView("courses")} />
+        ) : view === "courses" ? (
+          <Courses onOpenAuth={(role) => setAuthRole(role)} />
         ) : (
-          <Home onOpenAuth={(role) => setAuthRole(role)} />
+          <Home onOpenAuth={(role) => setAuthRole(role)} onGoCourses={() => setView("courses")} />
         )}
       </main>
-[build]
-  base = "app"
-  publish = "app/dist"
-  command = "npm run build"
-      <Footer onOpenAuth={(role) => setAuthRole(role)} />
+
+      <Footer onOpenAuth={(role) => setAuthRole(role)} onGoCourses={() => setView("courses")} />
 
       {authRole && (
         <AuthModal
@@ -61,3 +62,4 @@ export default function App() {
     </AuthProvider>
   );
 }
+

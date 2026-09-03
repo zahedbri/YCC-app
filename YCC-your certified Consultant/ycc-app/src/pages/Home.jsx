@@ -27,7 +27,7 @@ const STEPS = [
   { title: "Pre-departure & settling in", body: "Accommodation, airport pickup guidance, and a check-in once you've landed — our work doesn't stop at the visa stamp." },
 ];
 
-export default function Home({ onOpenAuth }) {
+export default function Home({ onOpenAuth, onGoCourses }) {
   const [tab, setTab] = useState("student");
 
   return (
@@ -250,6 +250,7 @@ export default function Home({ onOpenAuth }) {
                       <li>Scholarship and loan matching</li>
                       <li>Visa document checks &amp; interview prep</li>
                     </ul>
+                    <p className="small mb-0">Need your IELTS score first? <button className="btn btn-link p-0 align-baseline" onClick={onGoCourses}>See our 8-week IELTS Prep Course →</button></p>
                   </div>
                 </div>
               </div>

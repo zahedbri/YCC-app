@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 import { useAuth } from "../AuthContext";
 import { StudentRegistrationForm, AgentRegistrationForm } from "../components/RegistrationForms";
+import ResumeBuilder from "../components/student-tools/ResumeBuilder";
+import LearningResources from "../components/student-tools/LearningResources";
+import VisaChecklist from "../components/student-tools/VisaChecklist";
 
 function AdminTable({ title, table, columns, statusOptions }) {
   const [rows, setRows] = useState(null);
@@ -103,11 +106,50 @@ function AdminDashboard() {
           { key: "enquiry_type", label: "Wants" },
         ]}
       />
+      <AdminTable
+        title="IELTS course enrolments"
+        table="course_enrolments"
+        statusOptions={["pending", "confirmed", "cancelled"]}
+        columns={[
+          { key: "name", label: "Student", render: (r) => r.profiles?.full_name || "—" },
+          { key: "email", label: "Email", render: (r) => r.profiles?.email || "—" },
+          { key: "plan", label: "Plan" },
+        ]}
+      />
     </div>
   );
 }
 
-export default function Dashboard({ onOpenAuth }) {
+function StudentDashboard({ onOpenAuth, fullName, onGoCourses }) {
+  const [tab, setTab] = useState("registration");
+  const tabs = [
+    ["registration", "My Registration"],
+    ["resume", "Resume Builder"],
+    ["learning", "Learn IELTS / English"],
+    ["visa", "Visa Compliance"],
+  ];
+
+  return (
+    <div>
+      <h2 className="h4 mb-4">Welcome back, {fullName || "there"}</h2>
+      <ul className="nav nav-audience gap-2 mb-4">
+        {tabs.map(([key, label]) => (
+          <li className="nav-item" key={key}>
+            <button className={`nav-link ${tab === key ? "active" : ""}`} type="button" onClick={() => setTab(key)}>
+              {label}
+            </button>
+          </li>
+        ))}
+      </ul>
+      {tab === "registration" && <StudentRegistrationForm onOpenAuth={onOpenAuth} />}
+      {tab === "resume" && <ResumeBuilder />}
+      {tab === "learning" && <LearningResources onGoCourses={onGoCourses} />}
+      {tab === "visa" && <VisaChecklist />}
+    </div>
+  );
+}
+
+export default function Dashboard({ onOpenAuth, onGoCourses }) {
   const { profile, loading } = useAuth();
 
   if (loading || !profile) {
@@ -120,12 +162,7 @@ export default function Dashboard({ onOpenAuth }) {
 
   return (
     <div className="container section">
-      {profile.role === "student" && (
-        <>
-          <h2 className="h4 mb-4">Welcome back, {profile.full_name || "there"}</h2>
-          <StudentRegistrationForm onOpenAuth={onOpenAuth} />
-        </>
-      )}
+      {profile.role === "student" && <StudentDashboard onOpenAuth={onOpenAuth} fullName={profile.full_name} onGoCourses={onGoCourses} />}
       {profile.role === "agent" && (
         <>
           <h2 className="h4 mb-4">Welcome back, {profile.full_name || "there"}</h2>

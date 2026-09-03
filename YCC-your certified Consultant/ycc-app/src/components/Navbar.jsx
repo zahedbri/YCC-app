@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../AuthContext";
 
-export default function Navbar({ onOpenAuth, onGoDashboard, onGoHome }) {
+export default function Navbar({ onOpenAuth, onGoDashboard, onGoHome, onGoCourses }) {
   const { user, profile, signOut } = useAuth();
 
   return (
@@ -20,11 +20,12 @@ export default function Navbar({ onOpenAuth, onGoDashboard, onGoHome }) {
         </button>
         <div className="collapse navbar-collapse" id="mainNav">
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-1">
-            <li className="nav-item"><a className="nav-link" href="#destinations">Destinations</a></li>
-            <li className="nav-item"><a className="nav-link" href="#how-we-work">How We Work</a></li>
-            <li className="nav-item"><a className="nav-link" href="#about">About Us</a></li>
-            <li className="nav-item"><a className="nav-link" href="#audiences">Get Started</a></li>
-            <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
+            <li className="nav-item"><a className="nav-link" href="#destinations" onClick={onGoHome}>Destinations</a></li>
+            <li className="nav-item"><button className="nav-link btn btn-link" type="button" onClick={onGoCourses}>Courses</button></li>
+            <li className="nav-item"><a className="nav-link" href="#how-we-work" onClick={onGoHome}>How We Work</a></li>
+            <li className="nav-item"><a className="nav-link" href="#about" onClick={onGoHome}>About Us</a></li>
+            <li className="nav-item"><a className="nav-link" href="#audiences" onClick={onGoHome}>Get Started</a></li>
+            <li className="nav-item"><a className="nav-link" href="#contact" onClick={onGoHome}>Contact</a></li>
           </ul>
           <div className="d-flex flex-wrap gap-2 align-items-center">
             {user ? (

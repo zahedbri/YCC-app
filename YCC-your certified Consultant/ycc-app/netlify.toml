@@ -1,4 +1,5 @@
 [build]
+base = "YCC-your certified Consultant/ycc-app" 
   command = "npm run build"
   publish = "dist"
 

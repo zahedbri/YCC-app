@@ -1,6 +1,6 @@
 [build]
 base = "YCC-your certified Consultant" 
-  command = "npm run build"
+  command = "npm install"
   publish = "dist"
 
 [[redirects]]
